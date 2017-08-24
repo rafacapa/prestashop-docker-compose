@@ -1,0 +1,21 @@
+version: '2'
+services:
+  prestashop_pes:
+    build: ./prestashop
+    links:
+      - mysql_pes:mysql_pes
+    volumes:
+      - /var/www/prohubshop/src/backend/app/web/prestashop:/var/www/html
+    ports:
+      - 8000:80
+    env_file:
+      - prestashop.env
+
+  mysql_pes:
+    image: mysql:5.7.19
+    volumes:
+      - /var/www/prohubshop/data/mysql/prestashop:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - DB_SERVER: mysql_pes
