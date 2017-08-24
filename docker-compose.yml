@@ -5,7 +5,7 @@ services:
     links:
       - mysql_pes:mysql_pes
     volumes:
-      - /var/www/prohubshop/src/backend/app/web/prestashop:/var/www/html
+      - <your_local_path>:/var/www/html
     ports:
       - 8000:80
     env_file:
@@ -14,7 +14,7 @@ services:
   mysql_pes:
     image: mysql:5.7.19
     volumes:
-      - /var/www/prohubshop/data/mysql/prestashop:/var/lib/mysql
+      - <your_local_path>:/var/lib/mysql
     ports:
       - 3306:3306
     environment:
