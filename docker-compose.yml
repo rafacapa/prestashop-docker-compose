@@ -2,16 +2,15 @@ version: '2'
 services:
   prestashop_pes:
     build: ./prestashop
-    restart: always
+    restart: unless-stopped
     links:
       - mysql_pes:mysql_pes
     volumes:
       - <your_local_path>:/var/www/html
     ports:
-      - 8000:80
+      - 8018:80
     env_file:
       - prestashop.env
-
   mysql_pes:
     image: mysql:5.7.19
     volumes:
@@ -20,3 +19,9 @@ services:
       - 3306:3306
     env_file:
       - mysql.env
+  phpmyadmin_pes:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8686:80
+    links:
+      - mysql_pes:db
