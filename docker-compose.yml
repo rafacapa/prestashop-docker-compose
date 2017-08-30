@@ -1,27 +1,31 @@
 version: '2'
 services:
+  mariadb_pes:
+    image: bitnami/mariadb:10.1
+    volumes:
+      - <host/data/path>:/bitnami
+    env_file:
+      - mariadb.env
+    ports:
+      - 3306:3306
   prestashop_pes:
-    build: ./prestashop
+    image: bitnami/prestashop:1.7
     restart: unless-stopped
     links:
-      - mysql_pes:mysql_pes
+      - mariadb_pes:mariadb_pes
     volumes:
-      - <your_local_path>:/var/www/html
+      - <host/prestashop/path>:/bitnami
     ports:
       - 8018:80
     env_file:
       - prestashop.env
-  mysql_pes:
-    image: mysql:5.7.19
-    volumes:
-      - <your_local_path>:/var/lib/mysql
-    ports:
-      - 3306:3306
-    env_file:
-      - mysql.env
+    depends_on:
+      - mariadb_pes
   phpmyadmin_pes:
     image: phpmyadmin/phpmyadmin
     ports:
       - 8686:80
     links:
-      - mysql_pes:db
+      - mariadb_pes:db
+    depends_on:
+      - mariadb_pes
