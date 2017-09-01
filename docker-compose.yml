@@ -2,6 +2,7 @@ version: '2'
 services:
   mariadb_pes:
     image: bitnami/mariadb:10.1
+    restart: unless-stopped
     volumes:
       - <host/data/path>:/bitnami
     env_file:
@@ -23,6 +24,7 @@ services:
       - mariadb_pes
   phpmyadmin_pes:
     image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
     ports:
       - 8686:80
     links:
